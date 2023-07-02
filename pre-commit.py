@@ -64,7 +64,6 @@ def check_for_secrets():
 
     command = ["./gitleaks", "protect", "--staged", "--source", ".", "--verbose"]
     process = subprocess.run(command, capture_output=True, text=True)
-    stdout, stderr = process.communicate()
 
     print("Standard Output:")
     print(process.stdout)
