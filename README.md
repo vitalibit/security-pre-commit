@@ -34,9 +34,3 @@ To enable the pre-commit hook, run the following command:
 ```shell
 git config gitleaks.enabled true
 ```
-To manually run Gitleaks without committing, you can use the following command:
-
-```shell
-gitleaks --repo-path /path/to/your/repository
-```
-Make sure to replace /path/to/your/repository with the actual path to your repository.
