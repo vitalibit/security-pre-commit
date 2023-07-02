@@ -63,13 +63,13 @@ def check_for_secrets():
         install_gitleaks()
 
     command = ["./gitleaks", "protect", "--staged", "--source", ".", "--verbose"]
-    process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+    process = subprocess.run(command, capture_output=True, text=True)
     stdout, stderr = process.communicate()
 
     print("Standard Output:")
-    print(stdout)
+    print(process.stdout)
     print("Standard Error:")
-    print(stderr)
+    print(process.stderr)
 
     if process.returncode != 0:
         print("Error: Secrets detected. Commit rejected.")
@@ -78,7 +78,6 @@ def check_for_secrets():
 def main():
     # Check if Gitleaks is already installed
     gitleaks_path = "./gitleaks"
-    print(f"Check if Gitleaks is already installed, gitleaks_path: {gitleaks_path}")
     if os.path.exists(gitleaks_path):
         installed_version = subprocess.run([gitleaks_path, "version"], capture_output=True, text=True).stdout.strip()
         if installed_version == GITLEAKS_VERSION:
