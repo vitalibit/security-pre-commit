@@ -59,7 +59,7 @@ def check_for_secrets():
         print("gitleaks not found. Installing...")
         install_gitleaks()
 
-    result = subprocess.run(["./gitleaks", "--verbose"], capture_output=True, text=True)
+    result = subprocess.run(["./gitleaks", "detect", "--source", ".", "--verbose"], capture_output=True, text=True)
     if result.returncode == 1:
         print(result.stdout)
         print("Error: Secrets detected. Commit rejected.")
