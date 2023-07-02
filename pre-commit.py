@@ -62,7 +62,7 @@ def check_for_secrets():
         print("gitleaks not found. Installing...")
         install_gitleaks()
 
-    command = ["./gitleaks", "detect", "--source", ".", "--verbose"]
+    command = ["./gitleaks", "protect", "--source", ".", "--verbose"]
     process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
     stdout, stderr = process.communicate()
 
