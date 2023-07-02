@@ -1,4 +1,4 @@
-# Gitleaks Pre-commit Hook
+# Gitleaks pre-commit hook
 
 This script sets up a pre-commit hook for Git that automatically checks for secrets in your code using Gitleaks.
 
