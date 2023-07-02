@@ -61,7 +61,7 @@ def check_for_secrets():
 
     result = subprocess.run(["./gitleaks", "detect", "--source", ".", "--verbose"], capture_output=True, text=True)
     if result.returncode == 1:
-        print(result.stdout)
+        sys.stdout.write(result.stdout)
         print("Error: Secrets detected. Commit rejected.")
         sys.exit(1)
 
