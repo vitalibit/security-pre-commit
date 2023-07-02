@@ -6,18 +6,6 @@ import shutil
 import subprocess
 import sys
 
-def install_python3():
-    system = platform.system()
-    if system == "Linux":
-        subprocess.run(["sudo", "apt", "install", "python3"], check=True)
-    elif system == "Darwin":
-        subprocess.run(["brew", "install", "python@3"], check=True)
-    elif system == "Windows":
-        print("Please manually install Python 3 for Windows.")
-    else:
-        print(f"Error: Unsupported system {system}. Unable to install Python 3.")
-        sys.exit(1)
-
 def install_gitleaks():
     system = platform.system()
     if system == "Linux":
@@ -46,12 +34,6 @@ def enable_gitleaks_hook():
         print("Gitleaks pre-commit hook disabled.")
 
 def main():
-    # Install Python 3 if it's not already installed
-    python_version = sys.version_info
-    if python_version.major < 3:
-        print("Python 3 is required. Installing Python 3...")
-        install_python3()
-
     # Install gitleaks
     install_gitleaks()
 
