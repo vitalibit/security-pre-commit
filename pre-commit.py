@@ -6,17 +6,33 @@ import shutil
 import subprocess
 import sys
 
+GITLEAKS_VERSION = "8.17.0"
+
 def install_gitleaks():
     system = platform.system()
+    machine = platform.machine()
+    archive_filename = f"gitleaks_{GITLEAKS_VERSION}_"
+
     if system == "Linux":
-        subprocess.run(["curl", "-sfL", "https://github.com/zricethezav/gitleaks/releases/latest/download/gitleaks-linux-amd64", "-o", "gitleaks"], check=True)
+        if machine == "arm64":
+            archive_filename += "linux_arm64.tar.gz"
+        else:
+            archive_filename += "linux_x64.tar.gz"
     elif system == "Darwin":
-        subprocess.run(["curl", "-sfL", "https://github.com/zricethezav/gitleaks/releases/latest/download/gitleaks-darwin-amd64", "-o", "gitleaks"], check=True)
-    elif system == "Windows":
-        subprocess.run(["curl", "-sfL", "https://github.com/zricethezav/gitleaks/releases/latest/download/gitleaks-windows-amd64.exe", "-o", "gitleaks.exe"], check=True)
+        if machine == "arm64":
+            archive_filename += "darwin_arm64.tar.gz"
+        else:
+            archive_filename += "darwin_x64.tar.gz"
+    # elif system == "Windows":
+    #     archive_filename = f"gitleaks-windows-amd64.exe"
     else:
         print(f"Error: Unsupported system {system}. Unable to install gitleaks.")
         sys.exit(1)
+
+    download_url = f"https://github.com/gitleaks/gitleaks/releases/download/v{GITLEAKS_VERSION}/{archive_filename}"
+    output_filename = "gitleaks"
+
+    subprocess.run(["curl", "-sfL", download_url, "-o", output_filename], check=True)
 
 def enable_gitleaks_hook():
     enable_option = subprocess.run(["git", "config", "--get", "gitleaks.enabled"], capture_output=True, text=True).stdout.strip()
@@ -33,12 +49,28 @@ def enable_gitleaks_hook():
     else:
         print("Gitleaks pre-commit hook disabled.")
 
+def check_for_secrets():
+    try:
+        subprocess.run(["gitleaks", "--version"], capture_output=True, check=True)
+    except FileNotFoundError:
+        print("gitleaks not found. Installing...")
+        install_gitleaks()
+
+    result = subprocess.run(["gitleaks", "--verbose"], capture_output=True, text=True)
+    if result.returncode == 1:
+        print(result.stdout)
+        print("Error: Secrets detected. Commit rejected.")
+        sys.exit(1)
+
 def main():
     # Install gitleaks
     install_gitleaks()
 
     # Enable gitleaks pre-commit hook
     enable_gitleaks_hook()
+
+    # Check for secrets
+    check_for_secrets()
 
 if __name__ == "__main__":
     main()
