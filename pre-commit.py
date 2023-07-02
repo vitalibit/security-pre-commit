@@ -23,15 +23,24 @@ def install_gitleaks():
             archive_filename += "darwin_arm64.tar.gz"
         else:
             archive_filename += "darwin_x64.tar.gz"
+    elif system == "Windows":
+        if machine == "arm64":
+            archive_filename += "windows_arm64.zip"
+        else: 
+            archive_filename += "windows_x64.zip"
     else:
         print(f"Error: Unsupported system {system}. Unable to install gitleaks.")
         sys.exit(1)
-
+    
     download_url = f"https://github.com/gitleaks/gitleaks/releases/download/v{GITLEAKS_VERSION}/{archive_filename}"
     output_filename = "gitleaks"
 
-    subprocess.run(["curl", "-sfL", download_url, "-o", output_filename], check=True)
-    subprocess.run(["tar", "-xzf", output_filename, output_filename], check=True)
+    if system == "Windows":
+        subprocess.run(["curl", "-sfL", download_url, "-o", output_filename], check=True, shell=True)
+        subprocess.run(["tar", "-xf", output_filename, output_filename], check=True, shell=True)
+    else:
+        subprocess.run(["curl", "-sfL", download_url, "-o", output_filename], check=True)
+        subprocess.run(["tar", "-xzf", output_filename, output_filename], check=True)
 
 def enable_gitleaks_hook():
     enable_option = subprocess.run(["git", "config", "--get", "gitleaks.enabled"], capture_output=True, text=True).stdout.strip()
