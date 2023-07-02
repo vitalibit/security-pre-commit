@@ -56,16 +56,18 @@ def enable_gitleaks_hook():
 
 def check_for_secrets():
     try:
-        subprocess.run(["./gitleaks", "version"], capture_output=True, check=True)
+        subprocess.run(["./gitleaks", "version"], check=True)
     except FileNotFoundError:
         print("gitleaks not found. Installing...")
         install_gitleaks()
 
-    result = subprocess.run(["./gitleaks", "detect", "--source", ".", "--verbose"], capture_output=True, text=True)
-    if result.returncode == 1:
-        sys.stdout.write(result.stdout)
-        print("Error: Secrets detected. Commit rejected.")
-        sys.exit(1)
+    command = ["./gitleaks", "detect", "--source", ".", "--verbose"]
+    with subprocess.run(command, capture_output=True, text=True) as result:
+        print(result.stdout)
+
+        if result.returncode != 0:
+            print("Error: Secrets detected. Commit rejected.")
+            sys.exit(1)
 
 def main():
     # Check if Gitleaks is already installed
