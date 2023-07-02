@@ -23,8 +23,6 @@ def install_gitleaks():
             archive_filename += "darwin_arm64.tar.gz"
         else:
             archive_filename += "darwin_x64.tar.gz"
-    # elif system == "Windows":
-    #     archive_filename = f"gitleaks-windows-amd64.exe"
     else:
         print(f"Error: Unsupported system {system}. Unable to install gitleaks.")
         sys.exit(1)
