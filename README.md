@@ -16,7 +16,7 @@ cd security-pre-commit
 ```
 Run the Python script pre-commit.py to install Gitleaks and enable the pre-commit hook.
 ```shell
-pre-commit.py
+python3 pre-commit.py
 ```
 
 ## Usage
