@@ -10,32 +10,33 @@ This script sets up a pre-commit hook for Git that automatically checks for secr
 
 ## Installation
 
-1. Clone this repository to your local machine.
-2. Open a terminal and navigate to the cloned repository.
-3. Run the following command to install Python 3 and Gitleaks:
-
 ```shell
-python3 setup.py
+git clone https://github.com/vitalibit/security-pre-commit
+cd security-pre-commit
+```
+Run the Python script pre-commit.py to install Gitleaks and enable the pre-commit hook.
+```shell
+pre-commit.py
 ```
 
-Follow the on-screen instructions to complete the installation process.
-Configuration
-By default, the pre-commit hook is enabled. To disable it, run the following command:
+## Usage
 
-shell
-Copy code
+After the installation, the pre-commit hook will automatically run before each commit. If any secrets or sensitive information are detected by Gitleaks, the commit will be rejected and an error message will be displayed.
+
+To disable the pre-commit hook, you can set the gitleaks.enabled configuration option to false:
+
+```shell
 git config gitleaks.enabled false
+```
+
 To enable the pre-commit hook, run the following command:
 
-shell
-Copy code
+```shell
 git config gitleaks.enabled true
-Usage
-Once the pre-commit hook is enabled, it will automatically run Gitleaks before each commit. If any secrets are found, the commit will be rejected.
-
+```
 To manually run Gitleaks without committing, you can use the following command:
 
-shell
-Copy code
+```shell
 gitleaks --repo-path /path/to/your/repository
+```
 Make sure to replace /path/to/your/repository with the actual path to your repository.
