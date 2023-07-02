@@ -71,7 +71,7 @@ def main():
     # Check if Gitleaks is already installed
     gitleaks_path = "./gitleaks"
     print(f"Check if Gitleaks is already installed, gitleaks_path: {gitleaks_path}")
-    if not os.path.exists(gitleaks_path):
+    if os.path.exists(gitleaks_path):
         installed_version = subprocess.run([gitleaks_path, "version"], capture_output=True, text=True).stdout.strip()
         if installed_version == GITLEAKS_VERSION:
             print(f"Gitleaks {GITLEAKS_VERSION} is already installed.")
