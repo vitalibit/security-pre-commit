@@ -62,14 +62,24 @@ def check_for_secrets():
         install_gitleaks()
 
     result = subprocess.run(["./gitleaks", "detect", "--source", ".", "--verbose"], capture_output=True, text=True)
+    sys.stdout.write(result.stdout)
     if result.returncode == 1:
-        sys.stdout.write(result.stdout)
         print("Error: Secrets detected. Commit rejected.")
         sys.exit(1)
 
 def main():
-    # Install gitleaks
-    install_gitleaks()
+    # Check if Gitleaks is already installed
+    gitleaks_path = shutil.which("gitleaks")
+    if gitleaks_path is not None:
+        installed_version = subprocess.run([gitleaks_path, "version"], capture_output=True, text=True).stdout.strip()
+        if installed_version == GITLEAKS_VERSION:
+            print(f"Gitleaks {GITLEAKS_VERSION} is already installed.")
+        else:
+            print(f"Existing Gitleaks version {installed_version} is not compatible. Installing Gitleaks {GITLEAKS_VERSION}...")
+            install_gitleaks()
+    else:
+        print("Gitleaks is not installed. Installing...")
+        install_gitleaks()
 
     # Enable gitleaks pre-commit hook
     enable_gitleaks_hook()
