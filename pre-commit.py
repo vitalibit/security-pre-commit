@@ -33,6 +33,9 @@ def install_gitleaks():
     output_filename = "gitleaks"
 
     subprocess.run(["curl", "-sfL", download_url, "-o", output_filename], check=True)
+    print("I download archive")
+    subprocess.run(["tar", "-xzf", output_filename, output_filename], check=True)
+    print ("I made tar command")
 
 def enable_gitleaks_hook():
     enable_option = subprocess.run(["git", "config", "--get", "gitleaks.enabled"], capture_output=True, text=True).stdout.strip()
@@ -51,12 +54,12 @@ def enable_gitleaks_hook():
 
 def check_for_secrets():
     try:
-        subprocess.run(["gitleaks", "--version"], capture_output=True, check=True)
+        subprocess.run(["./gitleaks", "--version"], capture_output=True, check=True)
     except FileNotFoundError:
         print("gitleaks not found. Installing...")
         install_gitleaks()
 
-    result = subprocess.run(["gitleaks", "--verbose"], capture_output=True, text=True)
+    result = subprocess.run(["./gitleaks", "--verbose"], capture_output=True, text=True)
     if result.returncode == 1:
         print(result.stdout)
         print("Error: Secrets detected. Commit rejected.")
