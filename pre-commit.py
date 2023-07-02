@@ -54,7 +54,7 @@ def enable_gitleaks_hook():
 
 def check_for_secrets():
     try:
-        subprocess.run(["./gitleaks", "--version"], capture_output=True, check=True)
+        subprocess.run(["./gitleaks", "version"], capture_output=True, check=True)
     except FileNotFoundError:
         print("gitleaks not found. Installing...")
         install_gitleaks()
