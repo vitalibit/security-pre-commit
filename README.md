@@ -7,6 +7,7 @@ This script sets up a pre-commit hook for Git that automatically checks for secr
 - Python 3
 - Git
 - Curl (for installation)
+- tar
 
 ## Installation
 
