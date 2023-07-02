@@ -43,11 +43,11 @@ def enable_gitleaks_hook():
     if enable_option:
         enable = enable_option.lower() != "false"
     if enable:
-        # hooks_dir = os.path.join(".git", "hooks")
-        # pre_commit_script = os.path.join(hooks_dir, "pre-commit")
-        # script_path = os.path.abspath(__file__)
-        # shutil.copy(script_path, pre_commit_script)
-        # subprocess.run(["chmod", "+x", pre_commit_script], check=True)
+        hooks_dir = os.path.join(".git", "hooks")
+        pre_commit_script = os.path.join(hooks_dir, "pre-commit")
+        script_path = os.path.abspath(__file__)
+        shutil.copy(script_path, pre_commit_script)
+        subprocess.run(["chmod", "+x", pre_commit_script], check=True)
         print("Gitleaks pre-commit hook enabled.")
     else:
         print("Gitleaks pre-commit hook disabled.")
