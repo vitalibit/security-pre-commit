@@ -36,11 +36,11 @@ def install_gitleaks():
     output_filename = "gitleaks"
 
     if system == "Windows":
-        subprocess.run(["curl", "-sfL", download_url, "-o", output_filename], check=True, shell=True)
-        subprocess.run(["tar", "-xf", output_filename, output_filename], check=True, shell=True)
+        subprocess.run(["curl", "-sfL", download_url, "-o", archive_filename], check=True, shell=True)
+        subprocess.run(["tar", "-xf", archive_filename, output_filename], check=True, shell=True)
     else:
-        subprocess.run(["curl", "-sfL", download_url, "-o", output_filename], check=True)
-        subprocess.run(["tar", "-xzf", output_filename, output_filename], check=True)
+        subprocess.run(["curl", "-sfL", download_url, "-o", archive_filename], check=True)
+        subprocess.run(["tar", "-xzf", archive_filename, output_filename], check=True)
 
 def enable_gitleaks_hook():
     enable_option = subprocess.run(["git", "config", "--get", "gitleaks.enabled"], capture_output=True, text=True).stdout.strip()
