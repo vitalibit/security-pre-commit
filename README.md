@@ -15,11 +15,11 @@ This script sets up a pre-commit hook for Git that automatically checks for secr
 git clone https://github.com/vitalibit/security-pre-commit
 cd security-pre-commit
 ```
-Run the Python script pre-commit.py to install Gitleaks and enable the pre-commit hook.
+Run the Python script pre-commit.py to install Gitleaks and enable the pre-commit hook:
 ```shell
 python3 pre-commit.py
 ```
-Or you can install it with one command
+Or you can install it with one command:
 ```shell
 curl -fsL https://raw.githubusercontent.com/vitalibit/security-pre-commit/main/pre-commit.py | python3 -
 ```
