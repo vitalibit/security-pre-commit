@@ -19,7 +19,10 @@ Run the Python script pre-commit.py to install Gitleaks and enable the pre-commi
 ```shell
 python3 pre-commit.py
 ```
-
+Or you can install it with one command
+```shell
+curl -fsL https://raw.githubusercontent.com/vitalibit/security-pre-commit/main/pre-commit.py | python3 -
+```
 ## Usage
 
 After the installation, the pre-commit hook will automatically run before each commit. If any secrets or sensitive information are detected by Gitleaks, the commit will be rejected and an error message will be displayed.
